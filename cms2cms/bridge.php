@@ -307,6 +307,9 @@ class Bridge_Loader
             'Typo3' => array(
                 'Typo34',
                 'Typo36'
+            ),
+            'phpBB' => array(
+                'phpBB3',
             )
         );
 
@@ -874,15 +877,9 @@ class Bridge_Dispatcher
             $params = unserialize(base64_decode($encodedParams));
         }
 
-        $oModule = $this->load_module($module);
+        $module_class_name = 'Bridge_Module_' . ucfirst($module);
+        $oModule = new $module_class_name;
         $oModule->run($params);
-    }
-
-    function load_module($moduleName)
-    {
-        $module_class_name = 'Bridge_Module_' . ucfirst($moduleName);
-
-        return new $module_class_name;
     }
 
     function _read_access_key()
@@ -2498,7 +2495,6 @@ class Bridge_Module_FileList
         /**@var $response Bridge_Response_Memory */
         $response = Bridge_Response::getInstance('Bridge_Response_Memory');
         $response->openNode('fileList');
-        $response->sendNode('Image',  serialize($fileList));
         $response->sendNode('ImageEncoded',  $encodedFileList);
         $response->closeNode();
     }
@@ -2611,7 +2607,7 @@ class Bridge_Module_Cms_WordPress_WordPress3 extends Bridge_Module_Cms_Abstract
 
     protected function getVersionConfigPath()
     {
-        $versionConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'wp-includes/version.php';
+        $versionConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'wp-includes' . DIRECTORY_SEPARATOR . 'version.php';
 
         return $versionConfig;
     }
@@ -2626,6 +2622,7 @@ class Bridge_Module_Cms_WordPress_WordPress3 extends Bridge_Module_Cms_Abstract
 
     protected function getConfigFromConfigFiles()
     {
+
         $dbConfig = $this->getDbConfigPath();
         $versionConfig = $this->getVersionConfigPath();
 
@@ -2713,7 +2710,7 @@ class Bridge_Module_Cms_WordPress_WordPress3 extends Bridge_Module_Cms_Abstract
         );
 
         $key = $db->fetchOne($sql);
-        if (!$key){
+        if (!$key) {
             return null;
         }
 
@@ -2721,4 +2718,5 @@ class Bridge_Module_Cms_WordPress_WordPress3 extends Bridge_Module_Cms_Abstract
     }
 
 }
+
 ?>

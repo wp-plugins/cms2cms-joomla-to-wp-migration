@@ -3,7 +3,7 @@ Contributors: cms2cms
 Tags: joomla to wordpress, joomla to wordpress mirgation, convert joomla to wordpress, migrate joomla to wordpress
 Requires at least: 3.0.0
 Tested up to: 3.5.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -123,3 +123,13 @@ To fix it, you should either download the bridge again under the account you are
 3. /assets/screenshot-3.png
 4. /assets/screenshot-4.png
 5. /assets/screenshot-5.png
+
+== Changelog ==
+
+= 1.0.1 =
+* Added German Language
+* Minor fixes of html
+
+= 1.0 =
+* Initial commit
+

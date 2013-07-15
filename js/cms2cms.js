@@ -16,7 +16,8 @@
                         eval('data = ' + data);
                         if ( !data.errors ) {
                             // reload page to change form and show logout link
-                            location.reload();
+                            //location.reload();
+                            window.location.href = window.location.pathname + window.location.search;
                         }
                         else {
                             cms2cms.show_error(data.errors);
@@ -37,7 +38,7 @@
                     cms2cms.form_loading_hide( $('#cms2cms_form_verify') );
                 }
                 else {
-
+                    cms2cms.hide_error();
                     if ( data.hasOwnProperty('migration') && data.migration != '' ) {
                         var step_run = $('.cms2cms_step_migration_run');
 
@@ -109,6 +110,11 @@
                     errorText += error;
                 }
                 form.find('.error_message').html(errorText).show();
+            },
+
+            hide_error : function () {
+                var form = $('#cms2cms_accordeon').find('.cms2cms_accordeon_item:visible').find('form');
+                form.find('.error_message').html('').hide();
             },
 
             // get auth data
