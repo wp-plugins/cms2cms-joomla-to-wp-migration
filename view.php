@@ -10,6 +10,7 @@ class CmsPluginView
     public function __($message, $domain)
     {
         return __($message, $domain);
+        return __($message, $domain);
     }
 
     public function getFormTempKey($name)
@@ -24,7 +25,7 @@ class CmsPluginView
 
     public function getAppUrl()
     {
-        return 'http://dn.cms2cms'; /* no trailing slash */
+        return 'http://app.cms2cms.com'; /* no trailing slash */
     }
 
     public function getVideoLink()
@@ -67,6 +68,16 @@ class CmsPluginView
             $this->__('%s to %s', 'cms2cms-mirgation'),
             $this->getPluginSourceName(),
             $this->getPluginTargetName()
+        );
+    }
+
+    public function getPluginReferrerId()
+    {
+        return sprintf(
+            'Plugin | %s | %s to %s',
+            $this->getPluginTargetType(),
+            $this->getPluginTargetType(),
+            $this->getPluginSourceType()
         );
     }
 

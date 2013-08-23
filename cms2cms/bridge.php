@@ -88,7 +88,7 @@ $response->sendResponse();
 class Bridge_Loader
 {
 
-    var $installLevel = 4;
+    var $installLevel = 1;
 
     /**
      * @var Bridge_Module_Cms_Abstract
@@ -142,14 +142,17 @@ class Bridge_Loader
 
     public function getLocalRelativePath($path)
     {
+        $relativePath = $path;
         $currentPath = $this->getCurrentPath();
-        if (strpos($path, $currentPath) !== 0){
-            return $path;
+        if (strpos($path, $currentPath) === 0){
+            $relativePath = substr($path, strlen($currentPath));
         }
 
-        $path = substr($path, strlen($currentPath));
+        if (substr($relativePath, 0, 1) !== '/'){
+            $relativePath = '/' . $relativePath;
+        }
 
-        return $path;
+        return $relativePath;
     }
 
     public function createPathIfNotExists($path)
@@ -308,8 +311,8 @@ class Bridge_Loader
                 'Typo34',
                 'Typo36'
             ),
-            'phpBB' => array(
-                'phpBB3',
+            'phpBb' => array(
+                'phpBb3',
             )
         );
 
@@ -727,6 +730,7 @@ class Bridge_Includer {
         if (is_string($str) && preg_match("/^('|\")(?P<quoted>.*)(\\1)$/", $str, $matches)){
             $unquotedStr = $matches['quoted'];
         }
+
         return $unquotedStr;
     }
 
@@ -734,10 +738,21 @@ class Bridge_Includer {
     {
         $content = file_get_contents($filePath);
         $content = preg_replace('/<\?(=|%|php)?/mi', '', $content);
-        $content = preg_replace('/([^\$](require_once|require|include|include_once).*)$/mi', '', $content);
+
+        preg_match_all('~(require_once|require|include|include_once)[^\w_].*~mi', $content, $matches);
+
+        $matches = $matches[0];
+        foreach($matches as $match){
+            $match = trim($match);
+            $commentPos = strpos($match, '/*');
+            if ($commentPos){
+                $match = substr($match, 0, $commentPos);
+            }
+            $content = str_replace($match, '//' . $match . "\n", $content);
+        }
+        
         return $content;
     }
-
 
 }
 ?><?php
@@ -2717,6 +2732,606 @@ class Bridge_Module_Cms_WordPress_WordPress3 extends Bridge_Module_Cms_Abstract
         return $key;
     }
 
+}
+
+?><?php
+abstract class Bridge_Module_Cms_Joomla_Base extends Bridge_Module_Cms_Abstract
+{
+
+    abstract protected function getDbConfigPath();
+
+    abstract protected function getVersionConfigPath();
+
+    public function detect()
+    {
+        $config = $this->getDbConfigPath();
+        $version = $this->getVersionConfigPath();
+
+        return file_exists($config) && file_exists($version);
+    }
+
+    public function getImageDir()
+    {
+        return '/images';
+    }
+
+    public function getSiteUrl()
+    {
+        return '';
+    }
+}
+
+?><?php
+class Bridge_Module_Cms_Joomla_Joomla15 extends Bridge_Module_Cms_Joomla_Base
+{
+
+    protected function getDbConfigPath()
+    {
+        $config = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'configuration.php';
+
+        return $config;
+    }
+
+    protected function getVersionConfigPath()
+    {
+        $version = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'joomla' . DIRECTORY_SEPARATOR . 'version.php';
+
+        return $version;
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+
+        $config = $this->getDbConfigPath();
+        $version = $this->getVersionConfigPath();
+
+        define('JPATH_BASE', Bridge_Loader::getInstance()->getCurrentPath());
+        ob_start();
+        include ($config);
+        include ($version);
+        ob_clean();
+
+        if (!class_exists('JVersion')) {
+            return false;
+        }
+
+        $joomlaVersion = new JVersion();
+        $joomlaConfig = new JConfig();
+
+        $config = array();
+        $config['CMSType'] = 'Joomla';
+        $config['version'] = $joomlaVersion->RELEASE . '.' . $joomlaVersion->DEV_LEVEL;
+        $config['seo']['is_use'] = $joomlaConfig->sef;
+        $config['seo']['sef_rewrite'] = $joomlaConfig->sef_rewrite;
+        $config['seo']['sef_suffix'] = $joomlaConfig->sef_suffix;
+        $config['db']['host'] = $joomlaConfig->host;
+        $config['db']['user'] = $joomlaConfig->user;
+        $config['db']['password'] = $joomlaConfig->password;
+        $config['db']['dbname'] = $joomlaConfig->db;
+        $config['db']['dbprefix'] = $joomlaConfig->dbprefix;
+        $config['db']['driver'] = $joomlaConfig->dbtype;
+
+        return $config;
+    }
+
+    public function detectExtensions()
+    {
+        if (!class_exists('JVersion')) {
+            return array();
+        }
+
+        $joomlaVersion = new JVersion();
+        if (version_compare($joomlaVersion->RELEASE, '1.5')) {
+            $extensions = $this->detect16Extensions();
+        }
+        else {
+            $extensions = $this->detect15Extensions();
+        }
+
+        return $extensions;
+
+    }
+
+    public function detect15Extensions()
+    {
+        $db = Bridge_Db::getDbAdapter();
+
+        $sqlModules = sprintf(
+            '
+                SELECT `module`, `published`
+                FROM `%s`
+            ',
+            $this->prefixTable('modules')
+        );
+
+        $sqlPlugins = sprintf(
+            '
+                    SELECT `name`, `published`
+                    FROM `%s`
+                ',
+            $this->prefixTable('plugins')
+        );
+
+        $modules = $db->fetchAll($sqlModules, 'module');
+        $plugins = $db->fetchAll($sqlPlugins, 'name');
+
+        return array_merge($modules, $plugins);
+
+    }
+
+    public function detect16Extensions()
+    {
+        $db = Bridge_Db::getDbAdapter();
+        $sql = sprintf(
+            '
+                SELECT `name`, `enabled`
+                FROM `%s`
+            ',
+            $this->prefixTable('extensions')
+        );
+
+        return $db->fetchAll($sql, 'name');
+
+    }
+
+
+}
+?><?php
+class Bridge_Module_Cms_Joomla_Joomla17 extends Bridge_Module_Cms_Joomla_Joomla15
+{
+
+    protected function getVersionConfigPath()
+    {
+        $version = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'version.php';
+
+        return $version;
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+        $config = $this->getDbConfigPath();
+        $version = $this->getVersionConfigPath();
+
+        define('_JEXEC', Bridge_Loader::getInstance()->getCurrentPath());
+        ob_start();
+        include ($config);
+        include ($version);
+        ob_clean();
+
+        if (!class_exists('JVersion')) {
+            return false;
+        }
+
+        $joomlaVersion = new JVersion();
+        $joomlaConfig = new JConfig();
+
+        $config = array();
+        $config['CMSType'] = 'Joomla';
+        $config['version'] = $joomlaVersion->RELEASE . '.' . $joomlaVersion->DEV_LEVEL;
+        $config['seo']['is_use'] = $joomlaConfig->sef;
+        $config['seo']['sef_rewrite'] = $joomlaConfig->sef_rewrite;
+        $config['seo']['sef_suffix'] = $joomlaConfig->sef_suffix;
+        $config['db']['host'] = $joomlaConfig->host;
+        $config['db']['user'] = $joomlaConfig->user;
+        $config['db']['password'] = $joomlaConfig->password;
+        $config['db']['dbname'] = $joomlaConfig->db;
+        $config['db']['dbprefix'] = $joomlaConfig->dbprefix;
+        $config['db']['driver'] = $joomlaConfig->dbtype;
+
+        return $config;
+    }
+
+}
+
+?><?php
+class Bridge_Module_Cms_Joomla_Joomla25 extends Bridge_Module_Cms_Joomla_Joomla17
+{
+
+    protected function getVersionConfigPath()
+    {
+        $version = Bridge_Loader::getInstance()->getCurrentPath()
+            . DIRECTORY_SEPARATOR . 'libraries'
+            . DIRECTORY_SEPARATOR . 'cms'
+            . DIRECTORY_SEPARATOR . 'version'
+            . DIRECTORY_SEPARATOR . 'version.php';
+
+        return $version;
+    }
+}
+
+?><?php
+class Bridge_Module_Cms_Drupal_Drupal5 extends  Bridge_Module_Cms_Abstract
+{
+
+    protected function getDbConfigPath()
+    {
+        $dbConfig = Bridge_Loader::getInstance()->getCurrentPath()
+            . DIRECTORY_SEPARATOR . 'sites'
+            . DIRECTORY_SEPARATOR . 'default'
+            . DIRECTORY_SEPARATOR . 'settings.php';
+
+        return $dbConfig;
+    }
+
+    protected function getVersionConfigPath()
+    {
+        $versionConfig = Bridge_Loader::getInstance()->getCurrentPath()
+            . DIRECTORY_SEPARATOR . 'modules'
+            . DIRECTORY_SEPARATOR . 'system'
+            . DIRECTORY_SEPARATOR . 'system.module';
+
+        return $versionConfig;
+    }
+
+    public function detect()
+    {
+        $dbConfig = $this->getDbConfigPath();
+        $versionConfig = $this->getVersionConfigPath();
+
+        return file_exists($dbConfig) && file_exists($versionConfig);
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+        $dbConfig = $this->getDbConfigPath();
+        $versionConfig = $this->getVersionConfigPath();
+
+        $db_prefix = '';
+
+        ob_start();
+        include ($dbConfig);
+        include($versionConfig);
+        ob_clean();
+
+        if (!isset($db_url) || !defined('VERSION')) {
+            Bridge_Exception::ex('Can not detect config', null);
+            return;
+        }
+
+        if (is_array($db_url)){
+            $db_url = $db_url['default'];
+        }
+
+        $data = parse_url($db_url);
+        $config['version'] = VERSION;
+        $config['CMSType'] = 'Drupal';
+        $config['db']['host'] = urldecode($data['host']);
+        $config['db']['user'] = urldecode($data['user']);
+        $config['db']['password'] = isset($data['pass']) ? urldecode($data['pass']) : '';
+        $config['db']['dbname'] = str_replace('/', '', urldecode($data['path']));
+        $config['db']['dbprefix'] = $db_prefix;
+        $config['db']['driver'] = $data['scheme'];
+
+        return $config;
+    }
+
+    public function getImageDir()
+    {
+        return '';
+    }
+
+    public function getSiteUrl()
+    {
+        return '';
+    }
+
+    public function detectExtensions()
+    {
+        $db = Bridge_Db::getDbAdapter();
+        $sql = sprintf(
+            '
+                SELECT `name`, `status`
+                FROM `%s`
+            ',
+            $this->prefixTable('system')
+        );
+
+        return $db->fetchAll($sql, 'name');
+    }
+
+}
+?><?php
+class Bridge_Module_Cms_Drupal_Drupal6 extends  Bridge_Module_Cms_Drupal_Drupal5
+{
+
+    protected function prefixTable($tableName)
+    {
+        $config = $this->getConfig();
+
+        $prefix = '';
+        if (isset($config['db']['dbprefix'])) {
+            $prefix = $config['db']['dbprefix'];
+        }
+
+        if (is_array($prefix)){
+            if (isset($prefix[$tableName])){
+                $prefix = $prefix[$tableName];
+            }
+            elseif (isset($prefix['default'])) {
+                $prefix = $prefix['default'];
+            }
+            else {
+                $prefix = '';
+            }
+        }
+
+        return $prefix . $tableName;
+    }
+
+}
+?><?php
+class Bridge_Module_Cms_Drupal_Drupal7 extends Bridge_Module_Cms_Drupal_Drupal6
+{
+    protected function getVersionConfigPath()
+    {
+        $versionConfig = Bridge_Loader::getInstance()->getCurrentPath()
+            . DIRECTORY_SEPARATOR . 'includes'
+            . DIRECTORY_SEPARATOR . 'bootstrap.inc';
+
+        return $versionConfig;
+    }
+
+    public function detect()
+    {
+        $dbConfig = $this->getDbConfigPath();
+        $versionConfig = $this->getVersionConfigPath();
+        $databasesDir = Bridge_Loader::getInstance()->getCurrentPath()
+            . DIRECTORY_SEPARATOR . 'includes'
+            . DIRECTORY_SEPARATOR . 'database';
+
+        return file_exists($dbConfig) && file_exists($versionConfig)  && file_exists($databasesDir);
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+        $dbConfig = $this->getDbConfigPath();
+        $versionConfig = $this->getVersionConfigPath();
+
+        ob_start();
+        include ($dbConfig);
+        include ($versionConfig);
+        ob_clean();
+
+        if (!isset($databases) || !defined('VERSION')) {
+            Bridge_Exception::ex('Can not detect config', null);
+            return;
+        }
+
+        $config = array();
+        $config['version'] = VERSION;
+        $config['CMSType'] = 'Drupal';
+        $config['db']['host'] = $databases['default']['default']['host'];
+        $config['db']['user'] = $databases['default']['default']['username'];
+        $config['db']['password'] = $databases['default']['default']['password'];
+        $config['db']['dbname'] = $databases['default']['default']['database'];
+        $config['db']['dbprefix'] = $databases['default']['default']['prefix'];
+        $config['db']['driver'] = $databases['default']['default']['driver'];
+
+        return $config;
+    }
+}
+?><?php
+abstract class Bridge_Module_Cms_Typo3_Base extends Bridge_Module_Cms_Abstract
+{
+
+    public function getImageDir()
+    {
+        // Relative path to the images directory
+        $imgDir = DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'pics';
+
+        return $imgDir;
+    }
+
+}
+
+?><?php
+class Bridge_Module_Cms_Typo3_Typo34 extends Bridge_Module_Cms_Typo3_Base
+{
+    protected function getDbConfigPath()
+    {
+        $dbConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'typo3conf' . DIRECTORY_SEPARATOR . 'localconf.php';
+
+        return $dbConfig;
+    }
+
+    protected function getVersionConfigPath()
+    {
+        $verConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 't3lib' . DIRECTORY_SEPARATOR . 'class.t3lib_div.php';
+
+        return $verConfig;
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+        // Declare database settings variables,
+        // which are to be included from config files:
+        $TYPO3_CONF_VARS = null;
+        $typo_db_host = null;
+        $typo_db_username = null;
+        $typo_db = null;
+
+        ob_start();
+        define ('TYPO3_MODE', true);
+        include($this->getVersionConfigPath());
+        include($this->getDbConfigPath());
+        ob_clean();
+
+        if (is_null($TYPO3_CONF_VARS) || is_null($typo_db_host)
+            || is_null($typo_db_username) || is_null($typo_db)
+        ) {
+            Bridge_Exception::ex('Can not detect config for Typo3', null);
+
+            return;
+        }
+
+        $config['version'] = $TYPO3_CONF_VARS['SYS']['compat_version'];
+        $config['CMSType'] = 'Typo3';
+
+        $config['db']['host'] = $typo_db_host;
+        $config['db']['user'] = $typo_db_username;
+        if (!isset($typo_db_password)) {
+            $typo_db_password = ''; // The $typo_db_password is not declared if the password is empty
+        }
+        $config['db']['password'] = $typo_db_password;
+        $config['db']['dbname'] = $typo_db;
+        $config['db']['dbprefix'] = ''; // No support for table prefix out of the box
+        $config['db']['driver'] = 'mysqli'; // hardcoded database scheme
+
+        return $config;
+    }
+
+    public function detect()
+    {
+        return file_exists($this->getDbConfigPath()) && file_exists($this->getVersionConfigPath());
+    }
+
+    public function detectExtensions()
+    {
+        return array();
+    }
+
+    public function getSiteUrl()
+    {
+        $config = $this->getConfig();
+
+        return $config['siteurl'];
+    }
+}
+
+?><?php
+class Bridge_Module_Cms_Typo3_Typo36 extends Bridge_Module_Cms_Typo3_Base
+{
+
+    protected function getDbConfigPath()
+    {
+        $dbConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'typo3conf' . DIRECTORY_SEPARATOR . 'LocalConfiguration.php';
+
+        return $dbConfig;
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+        $Typo3Config = require $this->getDbConfigPath();
+
+        if (!isset($Typo3Config) || !isset($Typo3Config['SYS'])) {
+            Bridge_Exception::ex('Can not detect config for Typo3', null);
+            return;
+        }
+
+        $config['version'] = $Typo3Config['SYS']['compat_version'];
+        $config['CMSType'] = 'Typo3';
+        $config['db']['host'] = $Typo3Config['DB']['host'];
+        $config['db']['user'] = $Typo3Config['DB']['username'];
+        $config['db']['password'] = $Typo3Config['DB']['password'];
+        $config['db']['dbname'] = $Typo3Config['DB']['database'];
+        $config['db']['dbprefix'] = ''; // No support for table prefix out of the box
+        $config['db']['driver'] = 'mysqli'; // hardcoded database scheme
+
+        return $config;
+    }
+
+    public function detect()
+    {
+        return file_exists($this->getDbConfigPath());
+    }
+
+    public function detectExtensions()
+    {
+        return array();
+    }
+
+    public function getImageDir()
+    {
+        $imgDir = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'pics';
+
+        return $imgDir;
+    }
+
+    public function getSiteUrl()
+    {
+        return '';
+    }
+
+}
+?><?php
+class Bridge_Module_Cms_phpBb_phpBb3 extends Bridge_Module_Cms_Abstract
+{
+
+    protected $config = null;
+
+    protected function getDbConfigPath()
+    {
+        $dbConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'config.php';
+
+        return $dbConfig;
+    }
+
+    protected function getVersionConfigPath()
+    {
+        $versionConfig = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'constants.php';
+
+        return $versionConfig;
+    }
+
+    public function detect()
+    {
+        $dbConfig = $this->getDbConfigPath();
+
+        $versionConfig = $this->getVersionConfigPath();
+
+        return file_exists($dbConfig) && file_exists($versionConfig);
+    }
+
+    protected function getConfigFromConfigFiles()
+    {
+        $dbConfig = $this->getDbConfigPath();
+        $versionConfig = $this->getVersionConfigPath();
+
+        $dbConfigContent = Bridge_Includer::stripIncludes($dbConfig);
+        $versionConfigContent = Bridge_Includer::stripIncludes($versionConfig);
+
+        define('IN_PHPBB', true);
+        ob_start();
+        eval ($dbConfigContent);
+        eval ($versionConfigContent);
+        ob_clean();
+
+        if (!isset($dbhost) || !isset($dbuser)
+            || !isset($dbpasswd) || !isset($dbname) || !isset($table_prefix)
+        ) {
+            Bridge_Exception::ex('Can not detect config for phpBB', null);
+
+            return;
+        }
+
+        $config['CMSType'] = 'PhpBb';
+        $config['db']['host'] = $dbhost;
+        $config['db']['user'] = $dbuser;
+        $config['db']['password'] = $dbpasswd;
+        $config['db']['dbname'] = $dbname;
+        $config['db']['dbprefix'] = $table_prefix;
+        $config['db']['driver'] = isset($dbms) ? $dbms : 'mysqli';
+        $config['version'] = constant('PHPBB_VERSION');
+
+        return $config;
+    }
+
+    public function getImageDir()
+    {
+        $imgDir = Bridge_Loader::getInstance()->getCurrentPath() . DIRECTORY_SEPARATOR . 'files';
+
+        return $imgDir;
+    }
+
+    public function getSiteUrl()
+    {
+        return '';
+    }
+
+    public function detectExtensions()
+    {
+        return array();
+    }
 }
 
 ?>

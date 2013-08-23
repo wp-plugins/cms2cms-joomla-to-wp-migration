@@ -101,6 +101,7 @@ $cms2cms_ajax_nonce = $viewProvider->getFormTempKey('cms2cms-ajax-security-check
                                 <p class="description for__cms2cms_accordeon_item_register">
                                     <?php $viewProvider->_e('Minimum 6 characters', 'cms2cms-migration'); ?>
                                 </p>
+                                <input type="hidden" id="cms2cms-user-plugin" name="plugin" value="<?php echo $viewProvider->getPluginReferrerId();?>" class="regular-text"/>
                             </td>
                         </tr>
                     </tbody>
