@@ -209,9 +209,13 @@ $cms2cms_ajax_nonce = $viewProvider->getFormTempKey('cms2cms-ajax-security-check
  <div id="cms2cms-description">
      <p>
          <?php
-         $viewProvider->_e(
-             'CMS2CMS.com is the one-of-its kind tool for fast, accurate and trouble-free website migration from Joomla to WordPress. Just a few mouse clicks - and your Joomla articles, categories, images, users, comments, internal links etc are safely delivered to the new WordPress website.',
+         echo sprintf( $viewProvider->__(
+             'CMS2CMS.com is the one-of-its kind tool for fast, accurate and trouble-free website migration from %s to %s. Just a few mouse clicks - and your %s articles, categories, images, users, comments, internal links etc are safely delivered to the new WordPress website.',
              'cms2cms-migration'
+            ),
+             $viewProvider->getPluginSourceName(),
+             $viewProvider->getPluginTargetName(),
+             $viewProvider->getPluginSourceName()
          );
          ?>
      </p>

@@ -10,7 +10,6 @@ class CmsPluginView
     public function __($message, $domain)
     {
         return __($message, $domain);
-        return __($message, $domain);
     }
 
     public function getFormTempKey($name)
@@ -76,8 +75,8 @@ class CmsPluginView
         return sprintf(
             'Plugin | %s | %s to %s',
             $this->getPluginTargetType(),
-            $this->getPluginTargetType(),
-            $this->getPluginSourceType()
+            $this->getPluginSourceType(),
+            $this->getPluginTargetType()
         );
     }
 
