@@ -3,7 +3,7 @@ Contributors: cms2cms
 Tags: joomla to wordpress, joomla to wordpress mirgation, convert joomla to wordpress, migrate joomla to wordpress
 Requires at least: 3.0.0
 Tested up to: 3.6
-Stable tag: 1.0.3
+Stable tag: 2.0.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
