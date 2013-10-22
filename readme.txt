@@ -52,6 +52,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 1. Set up custom URL structure for WordPress (it should be set before the migration for internal links to work correctly, if you change them after migration, site navigation will be broken).
 1. Install WordPress plugins supported by CMS2CMS (if you want to migrate metadata or image galleries).
 
+To learn more about automated migration from Joomla to WordPress, visit http://www.cms2cms.com/supported-cms/joomla-to-wordpress-migration
 
 == Installation ==
 
