@@ -2,15 +2,14 @@
 Contributors: cms2cms
 Tags: joomla to wordpress, joomla to wordpress mirgation, convert joomla to wordpress, migrate joomla to wordpress
 Requires at least: 3.0.0
-Tested up to: 3.7
-Stable tag: 2.0.2
+Tested up to: 3.8
+Stable tag: 3.1.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Migrate your website content from Joomla to WordPress easily and automatedly in just a few simple steps.
 
 == Description ==
-
 Migrate your website content from Joomla to WordPress easily and automatedly in just a few simple steps.
 
 = The following content items can be migrated from Joomla to WordPress with CMS2CMS =
@@ -23,7 +22,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 * internal links
 * comments
 
-*Supported Joomla versions:* 1.5.x, 1.6.x, 1.7.x, 2.5.x, 3.0
+*Supported Joomla versions:* 1.5.x, 1.6.x, 1.7.x, 2.5.x, 3.x
 *Supported WordPress versions:* 3.x (new software versions are constantly being added).
 
 = Features of Automated Migration =
@@ -62,9 +61,7 @@ To learn more about automated migration from Joomla to WordPress, visit http://w
 1. Go to Admin -> Plugins, find “CMS2CMS Joomla to WordPress Migration” and click Activate
 1. You’ll be redirected to CMS2CMS website in order to complete your migration
 
-
 == Frequently Asked Questions ==
-
 = Your website is unreachable =
 If your website cannot be reached, pay attention to the following points:
 1. Make sure your site is available online at the moment.
@@ -92,8 +89,8 @@ If the module suhosin for PHP is installed on the server, increase the parameter
 
 = Your server responds with 500 Server Error =
 Incorrect permissions for bridge folder are the most common reason of this internal server error.
-1. for 'cms2cms' folder, specify the file permissions 755
-2. for 'index.php', 'bridge.php' and 'key.php' files in 'cms2cms' folder, specify the permissions 644
+1. for \'cms2cms\' folder, specify the file permissions 755
+2. for \'index.php\', \'bridge.php\' and \'key.php\' files in \'cms2cms\' folder, specify the permissions 644
 3. If it won’t help, contact your system administrator who can provide you with server logs access for further error detection. You can also request technical assistance from your hosting provider.
 
 = Failed to connect to host / Operation timed out / Nothing was returned from the server / The connection to your server has timed out =
@@ -147,4 +144,3 @@ To fix it, you should either download the bridge again under the account you are
 
 = 1.0 =
 * Initial commit
-

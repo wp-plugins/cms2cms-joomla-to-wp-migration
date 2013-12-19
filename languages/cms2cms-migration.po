@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../cms2cms-wordpress-to-joomla.php:35
-msgid "Joomla!"
+msgid "Joomla"
 msgstr ""
 
 #: ../cms2cms-wordpress-to-joomla.php:41
