@@ -3,13 +3,14 @@ Contributors: cms2cms
 Tags: joomla to wordpress, joomla to wordpress mirgation, convert joomla to wordpress, migrate joomla to wordpress
 Requires at least: 3.0.0
 Tested up to: 3.8
-Stable tag: 3.1.0
+Stable tag: 3.2.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Migrate your website content from Joomla to WordPress easily and automatedly in just a few simple steps.
 
 == Description ==
+
 Migrate your website content from Joomla to WordPress easily and automatedly in just a few simple steps.
 
 = The following content items can be migrated from Joomla to WordPress with CMS2CMS =
@@ -62,6 +63,7 @@ To learn more about automated migration from Joomla to WordPress, visit http://w
 1. You’ll be redirected to CMS2CMS website in order to complete your migration
 
 == Frequently Asked Questions ==
+
 = Your website is unreachable =
 If your website cannot be reached, pay attention to the following points:
 1. Make sure your site is available online at the moment.
@@ -125,6 +127,9 @@ To fix it, you should either download the bridge again under the account you are
 5. /assets/screenshot-5.png
 
 == Changelog ==
+
+= 3.0 =
+* Bug fixes
 
 = 2.0.2 =
 * Bug fixes

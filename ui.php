@@ -23,6 +23,9 @@ $cms2cms_authentication = $dataProvider->getAuthData();
 $cms2cms_download_bridge = $viewProvider->getDownLoadBridgeUrl($cms2cms_authentication);
 
 $cms2cms_ajax_nonce = $viewProvider->getFormTempKey('cms2cms-ajax-security-check');
+
+$currentPluginUrl = plugin_dir_url( __FILE__ );
+
 ?>
 
 <div class="wrap">
@@ -219,6 +222,7 @@ $cms2cms_ajax_nonce = $viewProvider->getFormTempKey('cms2cms-ajax-security-check
          );
          ?>
      </p>
+
      <p>
          <a href="http://www.cms2cms.com/how-it-works/" class="button" target="_blank">
              <?php $viewProvider->_e('See How it Works', 'cms2cms-migration'); ?>
@@ -228,6 +232,20 @@ $cms2cms_ajax_nonce = $viewProvider->getFormTempKey('cms2cms-ajax-security-check
         <?php
         $viewProvider->_e('Take a quick demo tour to get the idea about how your migration will be handled.', 'cms2cms-migration');
         ?>
+     </p>
+
+     <p></p>
+
+     <p>
+         <a href="http://www.cms2cms.com/assisted-migration-service/?utm_source=wpplugin&utm_medium=banner&utm_campaign=assisted">
+             <img title="Free assitance" src="<?php echo $currentPluginUrl;?>/img/assisted.png" alt="We are here to help you tune the migration! Free!"/>
+         </a>
+     </p>
+
+     <p>
+         <a href="http://www.cms2cms.com/support-service-plans/?utm_source=wpplugin&utm_medium=banner&utm_campaign=supportpackages">
+             <img title="Free assitance" src="<?php echo $currentPluginUrl;?>/img/package.png" alt="We can handle the website migration for you. Choose our Support Packages."/>
+         </a>
      </p>
  </div>
 
