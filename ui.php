@@ -247,6 +247,7 @@ $currentPluginUrl = plugin_dir_url( __FILE__ );
              <img title="Free assitance" src="<?php echo $currentPluginUrl;?>/img/package.png" alt="We can handle the website migration for you. Choose our Support Packages."/>
          </a>
      </p>
+
  </div>
 
 </div> <!-- /wrap -->
