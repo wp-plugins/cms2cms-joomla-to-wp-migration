@@ -128,6 +128,9 @@ To fix it, you should either download the bridge again under the account you are
 
 == Changelog ==
 
+= 3.0.1 =
+* Bug fixes
+
 = 3.0 =
 * Bug fixes
 
