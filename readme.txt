@@ -53,7 +53,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 1. Install WordPress plugins supported by CMS2CMS (if you want to migrate metadata or image galleries).
 
 = Video =
-[youtube https://www.youtube.com/watch?v=c9CyA1DEEHA]
+[youtube https://www.youtube.com/watch?v=itYSg_gHxZk]
 
 
 
