@@ -135,68 +135,144 @@ $currentPluginUrl = plugin_dir_url( __FILE__ );
 
         <?php } /* cms2cms_is_activated */ ?>
 
-        <li id="cms2cms_accordeon_item_id_<?php echo $cms2cms_step_counter++;?>" class="cms2cms_accordeon_item">
-            <h3>
-                <?php echo sprintf(
-                    $viewProvider->__('Connect %s', 'cms2cms-migration'),
-                    $viewProvider->getPluginSourceName()
-                ); ?>
-                <span class="spinner"></span>
-            </h3>
-            <form action="<?php echo $viewProvider->getVerifyUrl() ?>"
-                  callback="callback_verify"
-                  validate="verify"
-                  class="step_form"
-                  id="cms2cms_form_verify">
-                <ol>
-                    <li>
-                        <a
-                            data-log-this="Download Bridge Link clicked"
-                            href="<?php echo $cms2cms_download_bridge ?>" class="button">
-                            <?php echo $viewProvider->__('Download the Bridge file', 'cms2cms-migration'); ?>
-                        </a>
-                    </li>
-                    <li>
-                        <?php $viewProvider->_e('Unzip it', 'cms2cms-migration');?>
-                        <p class="description">
-                            <?php $viewProvider->_e('Find the cms2cms.zip on your computer, right-click it and select Extract in the menu.', 'cms2cms-migration'); ?>
-                        </p>
-                    </li>
-                    <li>
-                        <?php echo sprintf(
-                            $viewProvider->__('Upload to the root folder on your %s website.', 'cms2cms-migration'),
-                            $viewProvider->getPluginSourceName()
-                        ); ?>
-                        <a href="<?php echo $viewProvider->getVideoLink() ?>" target="_blank"><?php $viewProvider->_e('Watch the video', 'cms2cms-migration');?></a>
-                    </li>
-                    <li>
-                        <?php echo sprintf(
-                            $viewProvider->__('Specify %s website URL', 'cms2cms-migration'),
-                            $viewProvider->getPluginSourceName()
-                        ); ?>
-                        <br/>
-                        <input type="text" name="sourceUrl" value="" class="regular-text"
-                               data-log-this="Source Url Entered"
-                               placeholder="<?php
-                                    echo sprintf(
-                                        $viewProvider->__('http://your_%s_website.com/', 'cms2cms-migration'),
-                                        strtolower($viewProvider->getPluginSourceType())
-                                    );
-                                ?>"/>
-                        <input type="hidden" name="sourceType" value="<?php echo $viewProvider->getPluginSourceType(); ?>" />
-                        <input type="hidden" name="targetUrl" value="<?php echo $cms2cms_target_url;?>" />
-                        <input type="hidden" name="targetType" value="<?php echo $viewProvider->getPluginTargetType(); ?>" />
-                        <input type="hidden" name="targetBridgePath" value="<?php echo $cms2cms_bridge_url;?>" />
-                    </li>
-                </ol>
+    <li id="cms2cms_accordeon_item_id_<?php echo $cms2cms_step_counter++;?>" class="cms2cms_accordeon_item">
+        <h3>
+            <?php echo sprintf(
+                $viewProvider->__('Connect %s', 'cms2cms-migration'),
+                $viewProvider->getPluginSourceName()
+            ); ?>
+            <span class="spinner"></span>
+        </h3>
+        <form action="<?php echo $viewProvider->getInstallBridgeUrl() ?>"
+              callback="callback_verify"
+              validate="verify"
+              class="step_form"
+              id="cms2cms_form_verify">
+
+            <div class="assisted_admin">
+
+                <p>
+                    <?php $viewProvider->_e("Please provide your access credentials to have the bridge set up on your site automatedly", 'cms2cms-migration'); ?>
+                    <br/>
+                        <span class="description">
+                            <?php $viewProvider->_e("The connection bridge will be installed on your site automatedly in less than 60 secs and absolutely cost-free.", 'cms2cms-migration'); ?>
+                        </span>
+                </p>
+
+                <div class="source_access smalltext wide description">
+
+                    <div class="text">
+                        <h4>
+                            <?php echo sprintf(
+                                $viewProvider->__('%s Admin Area', 'cms2cms-migration'),
+                                $viewProvider->getPluginSourceName()
+                            ); ?>
+                        </h4>
+                    </div>
+
+                    <div class="source_access_undefined container_dark">
+                        <table cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <label for="sourceAdminPath"><?php $viewProvider->_e("Source site URL", 'cms2cms-migration'); ?></label>
+                                </td>
+                                <td>
+                                    <input type="text" name="sourceUrl" value="" class="regular-text"
+                                           data-log-this="Source Url Entered"
+                                           placeholder="<?php
+                                            echo sprintf(
+                                                $viewProvider->__('http://your_%s_website.com', 'cms2cms-migration'),
+                                                strtolower($viewProvider->getPluginSourceType())
+                                            );
+                                            ?>"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="sourceAdminPath"><?php $viewProvider->_e("Admin URL", 'cms2cms-migration'); ?></label>
+                                    <br/>
+                                        <span class="description">
+                                            <?php
+                                            echo sprintf(
+                                                $viewProvider->__('Make sure that your Admin panel URL is correct and corresponds to your %s site.', 'cms2cms-migration'),
+                                                strtolower($viewProvider->getPluginSourceName())
+                                            );
+                                            ?>
+                                        </span>
+                                </td>
+                                <td>
+                                    <input type="text" name="sourceAdminPath" autocomplete="off" class="regular-text" id="sourceAdminPath" value=""
+                                           data-log-this="Source Admin Path Entered"
+                                           placeholder="<?php
+                                           echo sprintf(
+                                               $viewProvider->__('http://your_%s_website.com%s', 'cms2cms-migration'),
+                                               strtolower($viewProvider->getPluginSourceType()),
+                                               $viewProvider->getPluginSourceAdminPath()
+                                           );
+                                           ?>"
+                                        >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="sourceAdminLogin"><?php $viewProvider->_e("Username", 'cms2cms-migration'); ?></label>
+                                    <br/>
+                                            <span class="description">
+                                                <?php $viewProvider->_e("This Administrator account should have the rights to install plugins/modules.", 'cms2cms-migration'); ?>
+                                            </span>
+                                </td>
+                                <td>
+                                    <input type="text" name="sourceAdminLogin" class="regular-text" autocomplete="off" id="sourceAdminLogin"
+                                           data-log-this="Source Admin Login Entered"
+                                        >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="sourceAdminPassword"><?php $viewProvider->_e("Password", 'cms2cms-migration'); ?></label>
+                                </td>
+                                <td>
+                                    <input type="password" id="sourceAdminPassword" name="sourceAdminPassword" class="regular-text"
+                                           data-log-this="Source Admin Password Entered"
+                                        >
+                                </td>
+                            </tr>
+                            </tbody></table>
+                    </div>
+
+                    <br>
+                </div>
+
+                <p>
+                        <span class="smalltext wide description">
+                            <?php $viewProvider->_e("Please, do not close your browser window - it won't take more than few minutes", 'cms2cms-migration'); ?>
+                            </br>
+                            <?php $viewProvider->_e("We guarantee 100% security to your confidential details
+                            To learn more on how we deal with sensitive data, see our
+                            <a href='http://www.cms2cms.com/privacy-policy/' target='_blank'>Privacy Policy</a>.", 'cms2cms-migration'); ?>
+                        </span>
+                </p>
+
                 <div class="error_message"></div>
-                <button type="submit"
+
+                <input type="hidden" name="sourceType" value="<?php echo $viewProvider->getPluginSourceType(); ?>" />
+                <input type="hidden" name="targetUrl" value="<?php echo $cms2cms_target_url;?>" />
+                <input type="hidden" name="targetType" value="<?php echo $viewProvider->getPluginTargetType(); ?>" />
+                <input type="hidden" name="targetBridgePath" value="<?php echo $cms2cms_bridge_url;?>" />
+
+                <input type="hidden" name="targetInstallBridgeSkip" value="1" />
+
+                <button type="submit" class="button button-primary button-large"
                         data-log-this="Verify Connection Button pressed"
-                        class="button button-primary button-large">
+                    >
                     <?php $viewProvider->_e('Verify connection', 'cms2cms-migration'); ?>
                 </button>
-            </form>
-        </li>
+
+            </div>
+
+        </form>
+    </li>
 
         <li id="cms2cms_accordeon_item_id_<?php echo $cms2cms_step_counter++;?>" class="cms2cms_accordeon_item">
             <h3>
@@ -207,6 +283,7 @@ $currentPluginUrl = plugin_dir_url( __FILE__ );
                   class="cms2cms_step_migration_run step_form"
                   method="post"
                   id="cms2cms_form_run">
+                <p>
                 <?php $viewProvider->_e("You'll be redirected to CMS2CMS application website in order to select your migration preferences and complete your migration.", 'cms2cms-migration'); ?>
                 <input type="hidden" name="sourceUrl" value="">
                 <input type="hidden" name="sourceType" value="">
@@ -214,11 +291,12 @@ $currentPluginUrl = plugin_dir_url( __FILE__ );
                 <input type="hidden" name="targetType" value="">
                 <input type="hidden" name="migrationHash" value="">
                 <input type="hidden" name="targetBridgePath" value="<?php echo $cms2cms_bridge_url; ?>"/>
+                </p>
                 <div class="error_message"></div>
                 <button type="submit"
                         data-log-this="Start Migration Button pressed"
                         class="button button-primary button-large">
-                    <?php $viewProvider->_e('Start migration', 'cms2cms-migration'); ?>
+                    <?php $viewProvider->_e('Configure and Start Migration', 'cms2cms-migration'); ?>
                 </button>
             </form>
         </li>
