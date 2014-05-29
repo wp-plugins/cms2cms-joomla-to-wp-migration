@@ -67,9 +67,18 @@
       width: 300px;
       color: #555;
       padding: 15px 25px;
-      background: #eee;
+        background: #e8e8e8;
+        border-top: solid 2px #ddd;
     }
 
     .cms2cms-improve a {
         color: #606060;
+    }
+
+    #cms2cms_accordeon table td {
+        padding: 5px 0;
+        border-bottom: solid 1px #ddd;
+    }
+    #cms2cms_accordeon table {
+        border-top: solid 2px #ddd;
     }

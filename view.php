@@ -32,6 +32,21 @@ class CmsPluginView
         return 'http://www.youtube.com/watch?feature=player_detailpage&v=DQK01NbrCdw#t=25s';
     }
 
+    public function getInstallBridgeUrl() {
+        return $this->getAppUrl().'/wizard/install-bridge';
+    }
+
+    public function getPluginSourceAdminPath() {
+        switch ( strtolower($this->getPluginSourceType()) ) {
+            case 'typo3' : $path = '/typo3/'; break;
+            case 'wordpress' : $path = '/wp-admin/'; break;
+            case 'joomla' : $path = '/administrator/'; break;
+            case 'drupal' : $path = '/user/login/'; break;
+            default : $path = '/admin-path/'; break;
+        }
+        return $path;
+    }
+
     public function getPluginSourceName()
     {
         return $this->__('Joomla', 'cms2cms-mirgation');
