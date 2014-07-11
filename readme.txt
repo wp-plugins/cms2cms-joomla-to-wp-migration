@@ -59,7 +59,7 @@ To learn more about automated migration from Joomla to WordPress, visit http://w
 
 
 By the way. don\'t forget to rate our plugin and leave a feedback. It\'s really important for!
-http://wordpress.org/support/view/plugin-reviews/cms2cms-html-to-wp-convertor?rate=5#postform
+http://wordpress.org/support/view/plugin-reviews/cms2cms-joomla-to-wp-migration?rate=5#postform
 
 == Installation ==
 
