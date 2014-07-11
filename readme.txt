@@ -58,7 +58,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 To learn more about automated migration from Joomla to WordPress, visit http://www.cms2cms.com/supported-cms/joomla-to-wordpress-migration
 
 
-By the way. don\'t forget to rate our plugin and leave a feedback. It\'s really important for!
+By the way, don\"t forget to rate our plugin and leave a feedback. It\"s really important for us!
 http://wordpress.org/support/view/plugin-reviews/cms2cms-joomla-to-wp-migration?rate=5#postform
 
 == Installation ==
