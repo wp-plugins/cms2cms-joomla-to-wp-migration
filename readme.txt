@@ -1,6 +1,6 @@
 ﻿=== CMS2CMS: Automated Joomla to WordPress Migration  ===
 Contributors: cms2cms
-Tags: joomla to wordpress, joomla to wordpress migration, convert joomla to wordpress, migrate joomla to wordpress, comments, posts, images, plugin
+Tags: joomla to wordpress, joomla to wordpress migration, migrate joomla to wordpress, comments, posts, images, plugin, convert joomla to wordpress
 Requires at least: 3.0.0
 Tested up to: 3.9.1
 Stable tag: 3.6.2
