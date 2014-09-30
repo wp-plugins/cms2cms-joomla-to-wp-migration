@@ -2,7 +2,7 @@
 Contributors: cms2cms
 Tags: joomla to wordpress, joomla to wordpress migration, migrate joomla to wordpress, comments, images, plugin, convert joomla to wordpress
 Requires at least: 3.0.0
-Tested up to: 3.9.1
+Tested up to: 4.0
 Stable tag: 3.6.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,6 +12,9 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 == Description ==
 
 Migrate your website content from Joomla to WordPress easily and automatedly in just a few simple steps.
+
+* *There is Free Demo available (migration of limited number of pages, users, comments).*
+* *Full Migration starts from $39.*
 
 = The following content items can be migrated from Joomla to WordPress with CMS2CMS =
 * articles
@@ -24,7 +27,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 * comments
 
 *Supported Joomla versions:* 1.5.x, 1.6.x, 1.7.x, 2.5.x, 3.x
-*Supported WordPress versions:* 3.x (new software versions are constantly being added).
+*Supported WordPress versions:* 4.x (new software versions are constantly being added).
 
 = Features of Automated Migration =
 - **easy** - no need for coding skills to complete it.
@@ -55,7 +58,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 = Video =
 [youtube https://www.youtube.com/watch?v=itYSg_gHxZk]
 
-To learn more about automated migration from Joomla to WordPress, visit http://www.cms2cms.com/supported-cms/joomla-to-wordpress-migration
+To learn more about automated migration from Joomla to WordPress, visit http://www.cms2cms.com/supported-cms/joomla-to-wordpress-migration?utm_source=Joomla&utm_medium=Link&utm_campaign=WordPress_plugins
 
 
 By the way, don\"t forget to rate our plugin and leave a feedback. It\"s really important for us!
