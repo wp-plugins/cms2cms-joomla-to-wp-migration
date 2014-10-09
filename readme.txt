@@ -14,7 +14,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 Migrate your website content from Joomla to WordPress easily and automatedly in just a few simple steps.
 
 * *There is Free Demo available (migration of limited number of pages, users, comments).*
-* *Full Migration starts from $39.*
+* *Full Migration starts from $49.*
 
 = The following content items can be migrated from Joomla to WordPress with CMS2CMS =
 * articles
