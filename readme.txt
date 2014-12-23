@@ -92,7 +92,7 @@ If you get this error, try the following solutions:
 This error means that access to certain files or folders is limited. Find below the possible solutions:
 1. Your firewall may be causing this by blocking access to the server for our IP addresses. Please, contact your hosting provider and ask them to add the following IPs to the white-list:
 <p>5.58.76.130</p>
-* 204.62.12.42
+204.62.12.42
 * 204.62.12.24
 * 88.214.254.75
 * 93.77.238.130
