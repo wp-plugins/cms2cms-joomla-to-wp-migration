@@ -58,8 +58,12 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 = Video =
 [youtube https://www.youtube.com/watch?v=itYSg_gHxZk]
 
-To learn more about automated migration from Joomla to WordPress, visit http://www.cms2cms.com/supported-cms/joomla-to-wordpress-migration?utm_source=Joomla&utm_medium=Link&utm_campaign=WordPress_plugins
+Our Support Team is available via phone, Live Chat and Email (Technical support) during the following hours:
+Phone support – 24 hours a day, Monday – Friday
+Live Chat support – 24 hours a day, Monday – Friday
+Technical support – from 11 am to 7 pm GMT +2, Monday – Friday
 
+To learn more about automated migration from Joomla to WordPress, visit http://www.cms2cms.com/supported-cms/joomla-to-wordpress-migration?utm_source=Joomla&utm_medium=Link&utm_campaign=WordPress_plugins
 
 By the way, don\"t forget to rate our plugin and leave a feedback. It\"s really important for us!
 http://wordpress.org/support/view/plugin-reviews/cms2cms-joomla-to-wp-migration?rate=5#postform
