@@ -91,9 +91,12 @@ If you get this error, try the following solutions:
 = Your server responds with 403 Forbidden =
 This error means that access to certain files or folders is limited. Find below the possible solutions:
 1. Your firewall may be causing this by blocking access to the server for our IP addresses. Please, contact your hosting provider and ask them to add the following IPs to the white-list:
-92.52.129.82
+5.58.76.130
 204.62.12.42
-Port 80.
+204.62.12.24
+88.214.254.75
+93.77.238.130
+Port 80
 This is done to enable data exchange between your websites. After the migration is complete, you’ll be able to remove our IPs from the white list.
 2. Check the access permissions. For ‘cms2cms’ folder specify the file permissions 755. For files in the ‘cms2cms’ folder specify permissions 644.
 3. Find out whether there are access restrictions for bridge file. Usually, restrictions are specified in .htaccess file. Contact your system administrator for details.
@@ -130,7 +133,6 @@ To fix it, you should either download the bridge again under the account you are
 
 = An unknown error occurred =
 Сontact us at support@cms2cms.com.
-
 
 == Screenshots ==
 
