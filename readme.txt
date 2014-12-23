@@ -80,8 +80,8 @@ http://wordpress.org/support/view/plugin-reviews/cms2cms-joomla-to-wp-migration?
 
 = Your website is unreachable =
 If your website cannot be reached, pay attention to the following points:
-1. Make sure your site is available online at the moment.
-2. It’s possible that your firewall blocks certain IP requests. Contact your system administrator or hosting provider support for details about this issue.
+* Make sure your site is available online at the moment.
+* It’s possible that your firewall blocks certain IP requests. Contact your system administrator or hosting provider support for details about this issue.
 
 = Your server responds with 401 Unauthorized =
 If you get this error, try the following solutions:
