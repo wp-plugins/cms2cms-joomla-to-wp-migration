@@ -79,9 +79,9 @@ http://wordpress.org/support/view/plugin-reviews/cms2cms-joomla-to-wp-migration?
 == Frequently Asked Questions ==
 
 = Your website is unreachable =
-<p>If your website cannot be reached, pay attention to the following points:</p>
-<p>*Make sure your site is available online at the moment.</p>
-<p>It’s possible that your firewall blocks certain IP requests. Contact your system administrator or hosting provider support for details about this issue.</p>
+<p>If your website cannot be reached, pay attention to the following points:
+Make sure your site is available online at the moment.
+It’s possible that your firewall blocks certain IP requests. Contact your system administrator or hosting provider support for details about this issue.</p>
 
 = Your server responds with 401 Unauthorized =
 If you get this error, try the following solutions:
@@ -91,13 +91,14 @@ If you get this error, try the following solutions:
 = Your server responds with 403 Forbidden =
 This error means that access to certain files or folders is limited. Find below the possible solutions:
 1. Your firewall may be causing this by blocking access to the server for our IP addresses. Please, contact your hosting provider and ask them to add the following IPs to the white-list:
-<p>5.58.76.130</p>
-<p>204.62.12.42</p>
-<p>204.62.12.24</p>
-<p>88.214.254.75</p>
-<p>93.77.238.130</p>
-<p>Port 80</p>
-
+<ul>
+<li>5.58.76.130</li>
+<li>204.62.12.42</li>
+<li>204.62.12.24</li>
+<li>88.214.254.75</li>
+<li>93.77.238.130</li>
+<li>Port 80</li>
+</ul>
 This is done to enable data exchange between your websites. After the migration is complete, you’ll be able to remove our IPs from the white list.
 1. Check the access permissions. For ‘cms2cms’ folder specify the file permissions 755. For files in the ‘cms2cms’ folder specify permissions 644.
 1. Find out whether there are access restrictions for bridge file. Usually, restrictions are specified in .htaccess file. Contact your system administrator for details.
