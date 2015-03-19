@@ -39,6 +39,7 @@ Migrate your website content from Joomla to WordPress easily and automatedly in 
 - opportunity to form internal URLs according to SEO URL structure on WordPress website.
 - 301 redirects from Joomla URLs to WordPress URLs
 - clear WordPress data before migration
+- Passwords migration (available for Joomla 2.5.18 - 2.5.27)
 
 = Additional Supported Modules =
 - **Jcomments** - migration of comments to WordPress directly
